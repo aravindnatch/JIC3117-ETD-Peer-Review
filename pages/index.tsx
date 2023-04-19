@@ -8,7 +8,12 @@ const Home: NextPage = () => {
   
   function handleLogin(instructor: boolean) {
     // TODO: add login logic
-    router.push('/dashboard?instructor=' + instructor)
+    if (instructor) {
+      router.push('/instructor')
+      return
+    }
+    
+    router.push('/student')
   }
   
   return (
