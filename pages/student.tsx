@@ -10,12 +10,6 @@ export default function Student() {
   const router = useRouter()
 
   function handleCurrent(id: number) {
-    if (Object.values(current).some((value: any) => value === null || value === "")) {
-      if (id > current.id) {
-        return
-      }
-    }
-
     setCurrent(data[id])
   }
 

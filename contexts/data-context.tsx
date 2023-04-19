@@ -24,7 +24,7 @@ export function useData() {
 export function DataProvider({ children }: {children: React.ReactNode}) {
   const [ data, setData ] = useState<Person[]>([
     {
-      name: 'Timmy Tim',
+      name: 'Timmy Buzz',
       id: 0,
       q1: null,
       q2: null,
@@ -32,7 +32,7 @@ export function DataProvider({ children }: {children: React.ReactNode}) {
       q4: null
     },
     {
-      name: 'Emily Em',
+      name: 'Emily Buzz',
       id: 1,
       q1: null,
       q2: null,
@@ -40,7 +40,7 @@ export function DataProvider({ children }: {children: React.ReactNode}) {
       q4: null
     },
     {
-      name: 'Billy Cool',
+      name: 'Billy Buzz',
       id: 2,
       q1: null,
       q2: null,
@@ -48,7 +48,7 @@ export function DataProvider({ children }: {children: React.ReactNode}) {
       q4: null
     },
     {
-      name: 'Sally Funny',
+      name: 'Sally Buzz',
       id: 3,
       q1: null,
       q2: null,
