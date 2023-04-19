@@ -1,15 +1,14 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 const Home: NextPage = () => {
-  const users = ['student', 'teacher']
+  const users = ['student', 'instructor']
   const router = useRouter()
   
-  function handleLogin(teacher: boolean) {
+  function handleLogin(instructor: boolean) {
     // TODO: add login logic
-    router.push('/dashboard?teacher=' + teacher)
+    router.push('/dashboard?instructor=' + instructor)
   }
   
   return (
@@ -39,7 +38,7 @@ const Home: NextPage = () => {
                   required 
                 />
               </div>
-              <div onClick={(e) => handleLogin(user === 'teacher')} className="pb-2">
+              <div onClick={(e) => handleLogin(user === 'instructor')} className="pb-2">
                 <button className="w-full bg-gray-200 rounded-xl">
                   Login
                 </button>

@@ -3,25 +3,25 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import Student from '@components/dashboard/student'
-import Teacher from '@components/dashboard/teacher'
+import Instructor from '@components/dashboard/instructor'
 
 const Dashboard: NextPage = () => {
-  const [ isTeacher, setIsTeacher ] = useState<boolean | null>(null)
+  const [ isInstructor, setIsInstructor ] = useState<boolean | null>(null)
   const router = useRouter()
 
   useEffect(() => {
-    if (!router.query.teacher) return
+    if (!router.query.instructor) return
 
     // TODO: replace with proper login logic
-    const teacher = router.query.teacher === 'true'
-    setIsTeacher(teacher)
+    const instructor = router.query.instructor === 'true'
+    setIsInstructor(instructor)
   }, [router.query])
 
   return (
     <>
       {
-        isTeacher ? (
-          <Teacher />
+        isInstructor ? (
+          <Instructor />
         ) : (
           <Student />
         )
