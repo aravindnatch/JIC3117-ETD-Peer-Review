@@ -1,4 +1,7 @@
 # Effective Team Dynamics (ETD) Peer Review Tool
+
+![ETD Logo](http://dl.dropboxusercontent.com/scl/fi/mlcqqendtjfn7rqznpv32/ETD.jpg?rlkey=stc8m9l9podusjd8djk8igu3d&dl=0)
+
 The ETD Peer Review tool allows instructors to distribute peer evaluations to their students and view and evaluate the results of the completed peer evaluations. The ETD tool also allows students to evaluate their teammates by conducting these peer evaluations given out by their instructors. Therefore, ETD can make viewing and grading students' peer evaluations easier for course instructors, letting instructors efficiently assess the teams' well-being, while teaching students how to evaluate their peers through carefully formatted evaluations with instructions.
 
 # Release Notes
