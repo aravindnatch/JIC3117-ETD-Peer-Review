@@ -18,7 +18,7 @@ N/A
 
 ### Known Issues
 
-* 
+* The login page is not taking user inputs and is not connected to the backend database as of now.
 
 ### Run Locally
 
