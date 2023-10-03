@@ -6,6 +6,24 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 # Release Notes
 
+## Version 0.2.0
+
+### New Features
+
+* A working Login page that can be typed in, accepting login info and storing them for sign-ups, and logging the users in if they put in the correct credentials.
+* The Login page is working for both Instructors and Students.
+* Instructors can create new groups and set names for the groups on the Instructor's page.
+
+### Bug Fixes
+
+* The login page is no longer there for demonstration, it is functioning.
+* The "Add Team" button on the Instructor's page is not for show, it can add new teams.
+
+### Known Issues
+
+* The student form is not the actual ETD peer evaluation form we will use in our tool.
+* The student cannot save an incomplete peer review and come back to it later.
+
 ## Version 0.1.0
 
 ### New Features
