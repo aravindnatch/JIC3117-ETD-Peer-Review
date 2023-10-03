@@ -6,6 +6,27 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 # Release Notes
 
+## Version 0.2.0
+
+### New Features
+
+* A working Login page that can bring the user to the GT login page and create a new account if the user is a first-time user.
+* The Login page can remember the users who have created an account.
+* The Login page is working for both Instructors and Students.
+* Instructors can create new courses and set course names on the Instructor's page.
+* The added courses will be remembered for the user (Instructor).
+
+### Bug Fixes
+
+* The Login page is no longer there for demonstration, it is functioning.
+* The Login page is connected to the GT login.
+* The instructors can add new courses to their accounts.
+
+### Known Issues
+
+* The student form is not the actual ETD peer evaluation form we will use in our tool.
+* The student cannot save an incomplete peer review and come back to it later.
+
 ## Version 0.1.0
 
 ### New Features
