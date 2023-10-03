@@ -15,10 +15,6 @@ export default function Teacher() {
     router.push('/')
   }
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
-
   function handleSelectCurrent(e: any) {
     setCurrent(data[e.target.value])
   }
