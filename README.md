@@ -10,14 +10,17 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 ### New Features
 
-* A working Login page that can be typed in, accepting login info and storing them for sign-ups, and logging the users in if they put in the correct credentials.
+* A working Login page that can bring the user to the GT login page and create a new account if the user is a first-time user.
+* The Login page can remember the users who have created an account.
 * The Login page is working for both Instructors and Students.
-* Instructors can create new groups and set names for the groups on the Instructor's page.
+* Instructors can create new courses and set course names on the Instructor's page.
+* The added courses will be remembered for the user (Instructor).
 
 ### Bug Fixes
 
-* The login page is no longer there for demonstration, it is functioning.
-* The "Add Team" button on the Instructor's page is not for show, it can add new teams.
+* The Login page is no longer there for demonstration, it is functioning.
+* The Login page is connected to the GT login.
+* The instructors can add new courses to their accounts.
 
 ### Known Issues
 
