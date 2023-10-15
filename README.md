@@ -24,8 +24,8 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 ### Known Issues
 
-* The student form is not the actual ETD peer evaluation form we will use in our tool.
-* The student cannot save an incomplete peer review and come back to it later.
+* The instructors cannot create new groups for each class.
+* The instructors cannot create evaluation forms for each class.
 
 ## Version 0.1.0
 
