@@ -6,6 +6,51 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 # Release Notes
 
+## Version 0.3.0
+
+### New Features
+
+* Instructors can create question sets - groups of questions to be used across courses.
+* Instructors are able to edit the question sets.
+* Instructors are able to view course information.
+* Instructors can create teams in a course.
+* Instructors are able to add students to a course.
+* The tool is able to generate invitation codes for students to use if they are not automatically added to a course.
+* Instructors can see a table view of the students.
+* Made UI changes to the tool.
+
+### Bug Fixes
+
+* The instructors are able to create new teams in a course, as opposed to the previous version.
+* The instructors can create question sets to use across courses, which is a new function added to the previous version.
+
+### Known Issues
+
+* The students cannot complete forms.
+* The students cannot save and leave a form to come back later.
+* The students cannot see the completed forms for all their teams across courses.
+
+## Version 0.2.0
+
+### New Features
+
+* A working Login page that can bring the user to the GT login page and create a new account if the user is a first-time user.
+* The Login page can remember the users who have created an account.
+* The Login page is working for both Instructors and Students.
+* Instructors can create new courses and set course names on the Instructor's page.
+* The added courses will be remembered for the user (Instructor).
+
+### Bug Fixes
+
+* The Login page is no longer there for demonstration, it is functioning.
+* The Login page is connected to the GT login.
+* The instructors can add new courses to their accounts.
+
+### Known Issues
+
+* The instructors cannot create new groups for each class.
+* The instructors cannot create evaluation forms for each class.
+
 ## Version 0.1.0
 
 ### New Features

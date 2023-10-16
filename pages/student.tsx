@@ -72,9 +72,9 @@ export default function Student() {
             <div className="flex items-center">
               {
                 canSubmit ? (
-                  <div className="text-lg font-semibold select-none cursor-pointer" onClick={goHome}>Save & Exit</div>
+                  <div className="text-lg font-semibold select-none cursor-pointer" onClick={goHome}>Submit & Logout</div>
                 ) : (
-                  <div className="text-lg font-semibold select-none cursor-pointer" onClick={goHome}>Exit</div>
+                  <div className="text-lg font-semibold select-none cursor-pointer" onClick={goHome}>Logout</div>
                 )
               }
             </div>

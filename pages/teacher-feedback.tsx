@@ -13,10 +13,16 @@ interface FeedbackItem {
   feedback: string;
 }
 
+const LoadingSpinner: React.FC = () => (
+  <div className="loading-spinner">
+    <div className="spinner"></div>
+    <div>Loading...</div>
+  </div>
+);
+
 const TeacherFeedback: React.FC = () => {
   const [teacherFeedback, setTeacherFeedback] = useState<TeacherFeedback | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +38,6 @@ const TeacherFeedback: React.FC = () => {
         setTeacherFeedback(feedbackData);
         setLoading(false); // Set loading to false when data is loaded
       } catch (error) {
-        setError("An error occurred while fetching data.");
         setLoading(false); // Set loading to false when an error occurs
       }
     };
@@ -40,21 +45,11 @@ const TeacherFeedback: React.FC = () => {
     fetchData();
   }, []);
 
-  if (error) {
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <div>Error: {error}</div>
-      </div>
-    );
-  }
-
   if (loading) {
-    // Display a loading spinner or animation
     return (
       <div>
         <h1>Teacher Feedback</h1>
-        <div className="loading-spinner">Loading...</div>
+        <LoadingSpinner />
       </div>
     );
   }
