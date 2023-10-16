@@ -59,6 +59,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(err);
     res.status(500).send('failed to get user courses');
     return;
+  }
+
+  try {
+    if (userData.role === 'instructor') {
+      const questionsCollection = db.collection('questions');
+      let questionDocuments: any = [];
+
+      questionDocuments = await questionsCollection.find({ instructor: new ObjectId(userData._id) }).toArray();
+
+      userData.questions = questionDocuments;
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('failed to get user questions');
+    return;
   } finally {
     await client.close();
   }
