@@ -6,6 +6,30 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 # Release Notes
 
+## Version 0.3.0
+
+### New Features
+
+* Instructors can create question sets - groups of questions to be used across courses.
+* Instructors are able to edit the question sets.
+* Instructors are able to view course information.
+* Instructors can create teams in a course.
+* Instructors are able to add students to a course.
+* The tool is able to generate invitation codes for students to use if they are not automatically added to a course.
+* Instructors can see a table view of the students.
+* Made UI changes to the tool.
+
+### Bug Fixes
+
+* The instructors are able to create new teams in a course, as opposed to the previous version.
+* The instructors can create question sets to use across courses, which is a new function added to the previous version.
+
+### Known Issues
+
+* The student side cannot complete forms.
+* The student side cannot save and leave a form to come back later.
+* The student side cannot see the completed forms for all their teams across courses.
+
 ## Version 0.2.0
 
 ### New Features
