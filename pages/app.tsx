@@ -6,10 +6,18 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import Student from '@components/student/student';
 import Instructor from '@components/instructor/instructor';
+import Nav from '@components/nav/nav';
+
+type userData = {
+  username: string;
+  email: string;
+  name: string;
+  role: string;
+}
 
 const Home: NextPage = () => {
   const [ cookies ] = useCookies(['userData']);
-  const [ userData, setUserData ] = useState<any>({});
+  const [ userData, setUserData ] = useState<userData>({username: "", email: "", name: "", role: ""});
   const [ loading, setLoading ] = useState(true);
   const router = useRouter();
 
@@ -42,9 +50,11 @@ const Home: NextPage = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Head>
-        <title>Effective Team Dynamics Tool</title>
+        <title>Team Dynamics</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Nav name={userData.name} />
 
       <div className="flex flex-col flex-grow md:flex-row overflow-auto">
         <div className="flex flex-grow flex-col w-full">
