@@ -6,6 +6,21 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 # Release Notes
 
+## Version 0.3.0
+
+### New Features
+
+* 
+
+### Bug Fixes
+
+* The instructors cannot create new groups for each class. (from v.0.2.0 known issue, will be updated)
+* The instructors cannot create evaluation forms for each class. (from v.0.2.0 known issue, will be updated)
+
+### Known Issues
+
+* 
+
 ## Version 0.2.0
 
 ### New Features
