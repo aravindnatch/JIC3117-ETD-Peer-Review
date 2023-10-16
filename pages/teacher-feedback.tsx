@@ -13,48 +13,54 @@ interface FeedbackItem {
   feedback: string;
 }
 
+const LoadingSpinner: React.FC = () => (
+  <div className="loading-spinner">
+    <div className="spinner"></div>
+    <div>Loading...</div>
+  </div>
+);
+
 const TeacherFeedback: React.FC = () => {
   const [teacherFeedback, setTeacherFeedback] = useState<TeacherFeedback | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Simulated data fetching
-        const response = await fetch("/api/teacher-feedback"); // Replace with your actual API endpoint
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
+    // Attempt to retrieve data from local storage
+    const cachedData = localStorage.getItem("teacherFeedbackData");
+
+    if (cachedData) {
+      setTeacherFeedback(JSON.parse(cachedData));
+      setLoading(false);
+    } else {
+      const fetchData = async () => {
+        try {
+          // Simulated data fetching
+          const response = await fetch("/api/teacher-feedback"); // Replace with your actual API endpoint
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+
+          const feedbackData = await response.json();
+
+          // Store the data in local storage for caching
+          localStorage.setItem("teacherFeedbackData", JSON.stringify(feedbackData));
+
+          setTeacherFeedback(feedbackData);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
         }
+      };
 
-        const feedbackData = await response.json();
-
-        setTeacherFeedback(feedbackData);
-        setLoading(false); // Set loading to false when data is loaded
-      } catch (error) {
-        setError("An error occurred while fetching data.");
-        setLoading(false); // Set loading to false when an error occurs
-      }
-    };
-
-    fetchData();
+      fetchData();
+    }
   }, []);
 
-  if (error) {
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <div>Error: {error}</div>
-      </div>
-    );
-  }
-
   if (loading) {
-    // Display a loading spinner or animation
     return (
       <div>
         <h1>Teacher Feedback</h1>
-        <div className="loading-spinner">Loading...</div>
+        <LoadingSpinner />
       </div>
     );
   }
