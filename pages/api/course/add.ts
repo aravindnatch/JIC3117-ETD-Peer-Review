@@ -27,6 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const name = req.body.name;
+  const questionSetID = req.body.questionSet;
 
   try {
     const courses = db.collection('courses');
@@ -34,8 +35,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const newCourse = {
       instructor: new ObjectId(user.documentID),
       name: name,
+      questionSet: new ObjectId(questionSetID),
       students: [],
-      versions: []
+      versions: [],
+      teams: [],
     };
 
     await courses.insertOne(newCourse);
