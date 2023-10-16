@@ -26,9 +26,9 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 ### Known Issues
 
-* The student side cannot complete forms.
-* The student side cannot save and leave a form to come back later.
-* The student side cannot see the completed forms for all their teams across courses.
+* The students cannot complete forms.
+* The students cannot save and leave a form to come back later.
+* The students cannot see the completed forms for all their teams across courses.
 
 ## Version 0.2.0
 
