@@ -13,10 +13,16 @@ interface FeedbackItem {
   feedback: string;
 }
 
+const LoadingSpinner: React.FC = () => (
+  <div className="loading-spinner">
+    <div className="spinner"></div>
+    <div>Loading...</div>
+  </div>
+);
+
 const TeacherFeedback: React.FC = () => {
   const [teacherFeedback, setTeacherFeedback] = useState<TeacherFeedback | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,31 +36,34 @@ const TeacherFeedback: React.FC = () => {
         const feedbackData = await response.json();
 
         setTeacherFeedback(feedbackData);
-        setLoading(false); // Set loading to false when data is loaded
+        setLoading(false);
       } catch (error) {
-        setError("An error occurred while fetching data.");
-        setLoading(false); // Set loading to false when an error occurs
+        setLoading(false);
       }
     };
 
     fetchData();
+
+    // Set up a WebSocket connection for real-time updates
+    const socket = new WebSocket("ws://your-websocket-server-url"); // Replace with your WebSocket server URL
+
+    socket.addEventListener("message", (event) => {
+      // Handle real-time updates received over WebSocket
+      const updatedData = JSON.parse(event.data);
+      setTeacherFeedback(updatedData);
+    });
+
+    // Clean up the WebSocket connection when the component unmounts
+    return () => {
+      socket.close();
+    };
   }, []);
 
-  if (error) {
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <div>Error: {error}</div>
-      </div>
-    );
-  }
-
   if (loading) {
-    // Display a loading spinner or animation
     return (
       <div>
         <h1>Teacher Feedback</h1>
-        <div className="loading-spinner">Loading...</div>
+        <LoadingSpinner />
       </div>
     );
   }
