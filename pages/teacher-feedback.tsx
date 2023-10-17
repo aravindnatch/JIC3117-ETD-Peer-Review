@@ -36,13 +36,27 @@ const TeacherFeedback: React.FC = () => {
         const feedbackData = await response.json();
 
         setTeacherFeedback(feedbackData);
-        setLoading(false); // Set loading to false when data is loaded
+        setLoading(false);
       } catch (error) {
-        setLoading(false); // Set loading to false when an error occurs
+        setLoading(false);
       }
     };
 
     fetchData();
+
+    // Set up a WebSocket connection for real-time updates
+    const socket = new WebSocket("ws://your-websocket-server-url"); // Replace with your WebSocket server URL
+
+    socket.addEventListener("message", (event) => {
+      // Handle real-time updates received over WebSocket
+      const updatedData = JSON.parse(event.data);
+      setTeacherFeedback(updatedData);
+    });
+
+    // Clean up the WebSocket connection when the component unmounts
+    return () => {
+      socket.close();
+    };
   }, []);
 
   if (loading) {
