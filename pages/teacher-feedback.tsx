@@ -25,38 +25,35 @@ const TeacherFeedback: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Simulated data fetching
-        const response = await fetch("/api/teacher-feedback"); // Replace with your actual API endpoint
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
+    // Attempt to retrieve data from local storage
+    const cachedData = localStorage.getItem("teacherFeedbackData");
+
+    if (cachedData) {
+      setTeacherFeedback(JSON.parse(cachedData));
+      setLoading(false);
+    } else {
+      const fetchData = async () => {
+        try {
+          // Simulated data fetching
+          const response = await fetch("/api/teacher-feedback"); // Replace with your actual API endpoint
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+
+          const feedbackData = await response.json();
+
+          // Store the data in local storage for caching
+          localStorage.setItem("teacherFeedbackData", JSON.stringify(feedbackData));
+
+          setTeacherFeedback(feedbackData);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
         }
+      };
 
-        const feedbackData = await response.json();
-
-        setTeacherFeedback(feedbackData);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-
-    // Set up a WebSocket connection for real-time updates
-    const socket = new WebSocket("ws://your-websocket-server-url"); // Replace with your WebSocket server URL
-
-    socket.addEventListener("message", (event) => {
-      // Handle real-time updates received over WebSocket
-      const updatedData = JSON.parse(event.data);
-      setTeacherFeedback(updatedData);
-    });
-
-    // Clean up the WebSocket connection when the component unmounts
-    return () => {
-      socket.close();
-    };
+      fetchData();
+    }
   }, []);
 
   if (loading) {
