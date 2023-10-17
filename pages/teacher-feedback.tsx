@@ -1,5 +1,3 @@
-// teacher-feedback.tsx
-
 import React, { useState, useEffect } from "react";
 
 interface TeacherFeedback {
@@ -15,44 +13,52 @@ interface FeedbackItem {
   feedback: string;
 }
 
+const LoadingSpinner: React.FC = () => (
+  <div className="loading-spinner">
+    <div className="spinner"></div>
+    <div>Loading...</div>
+  </div>
+);
+
 const TeacherFeedback: React.FC = () => {
   const [teacherFeedback, setTeacherFeedback] = useState<TeacherFeedback | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Simulate fetching teacher feedback data from an API or database
   useEffect(() => {
-    // Replace this with actual data fetching logic
     const fetchData = async () => {
-      // Simulated data
-      const feedbackData = {
-        teacherId: 1,
-        teacherName: "John Doe",
-        feedbackGiven: [
-          {
-            feedbackId: 1,
-            studentId: 101,
-            studentName: "Alice",
-            feedback: "Good",
-          },
-          {
-            feedbackId: 2,
-            studentId: 102,
-            studentName: "Bob",
-            feedback: "Bad",
-          },
-        ],
-      };
+      try {
+        // Simulated data fetching
+        const response = await fetch("/api/teacher-feedback"); // Replace with your actual API endpoint
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
 
-      setTeacherFeedback(feedbackData);
+        const feedbackData = await response.json();
+
+        setTeacherFeedback(feedbackData);
+        setLoading(false); // Set loading to false when data is loaded
+      } catch (error) {
+        setLoading(false); // Set loading to false when an error occurs
+      }
     };
 
     fetchData();
   }, []);
 
+  if (loading) {
+    return (
+      <div>
+        <h1>Teacher Feedback</h1>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   if (teacherFeedback === null) {
     return (
       <div>
         <h1>Teacher Feedback</h1>
-        <div>Loading...</div>
+        <div>No data available.</div>
       </div>
     );
   }
