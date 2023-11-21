@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import axios from 'axios'
 import { useCookies } from "react-cookie";
@@ -89,12 +89,12 @@ export default function EditQuestions({ editQuestions, setEditQuestions }: Modal
                 />
 
                 <button onClick={handleAddQuestion} disabled={newQuestion === ''} className="bg-transparent flex items-center justify-center w-10">
-                  <BiPlus className="text-2xl opacity-70" />
+                  <BiPlus className="text-2xl opacity-70 cursor-pointer" />
                 </button>
               </div>
             </div>
 
-            <button onClick={handleAdd} disabled={name == "" || questions.length === 0} className={`w-full text-white bg-amber-600 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-40`}>
+            <button onClick={handleAdd} disabled={name == "" || questions.length === 0 || (name === editQuestions.name && JSON.stringify(questions) == JSON.stringify(editQuestions.questions))} className={`w-full text-white bg-amber-600 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-40 disabled:cursor-not-allowed`}>
               {pressed ? 'Editing Question Set...' : 'Edit Question Set'}
             </button>
             </div>
