@@ -6,6 +6,26 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 # Release Notes
 
+## Version 0.4.0
+
+### New Features
+
+* Instructors can delete students from a course.
+* Instructors can add students to a team.
+* Changed database structure for the above functionalities.
+* Have a main peer evaluation page skeleton for students.
+
+### Bug Fixes
+
+* Students can navigate the skeleton peer evaluation form.
+* Students can give scores and comments for each member of their team in the skeleton peer evaluation form.
+* Students can complete the skeleton peer evaluation form.
+
+### Known Issues
+
+* The Instructor side and the Student side are not connected (for instructors' custom evaluation forms).
+* Instructors cannot generate a report for a peer evaluation they gave out.
+
 ## Version 0.3.0
 
 ### New Features
