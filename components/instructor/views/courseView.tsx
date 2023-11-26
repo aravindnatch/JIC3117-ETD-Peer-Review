@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { IoIosArrowDroprightCircle } from 'react-icons/io'
 import { BiChevronLeft, BiCog, BiPlus, BiRightArrowAlt } from 'react-icons/bi'
-import { AiFillCheckCircle, AiOutlineSave, AiOutlineSetting } from 'react-icons/ai'
-import { BsCheckCircle, BsPersonPlus } from 'react-icons/bs'
+import { AiOutlineSave, AiOutlineSetting } from 'react-icons/ai'
+import { BsPersonPlus } from 'react-icons/bs'
 import AddTeam from '../modals/addTeam'
 import AddStudent from '../modals/addStudent'
 import toast from "react-hot-toast"
-import { FaFileExport } from 'react-icons/fa'
+import BottomBar from '../modals/bottomBar'
+import AddToTeam from '../modals/addToTeam'
 
 interface CourseViewProps {
   active: any
@@ -16,11 +16,23 @@ interface CourseViewProps {
 export default function CourseView({active, setActive}: CourseViewProps) {
   const [ addTeam, setAddTeam ] = useState(false)
   const [ addStudent, setAddStudent ] = useState(false)
+  const [ addToTeam, setAddToTeam ] = useState(false)
+  const [ selected, setSelected ] = useState<any>([]);
 
   const handleInvite = () => {
     toast.success("Invite code copied to clipboard!")
     navigator.clipboard.writeText(active._id)
   }
+
+  const handleCheckboxChange = (studentUsername: any) => {
+    if (selected.includes(studentUsername)) {
+      setSelected((prevCheckedStudents: any) =>
+        prevCheckedStudents.filter((username: any) => username !== studentUsername)
+      );
+    } else {
+      setSelected((prevCheckedStudents: any) => [...prevCheckedStudents, studentUsername]);
+    }
+  };
 
   return (
     <>
@@ -34,7 +46,11 @@ export default function CourseView({active, setActive}: CourseViewProps) {
           <AddStudent docID={active._id} setAddStudent={setAddStudent} />
         )
       }
-
+      {
+        addToTeam && (
+          <AddToTeam docID={active._id} team={active.teams} selected={addToTeam} setAddToTeam={setAddToTeam} />
+        )
+      }
       <div className="px-8 pt-4">
         <div className="flex justify-between">
           <div>
@@ -88,7 +104,7 @@ export default function CourseView({active, setActive}: CourseViewProps) {
         <div className="md:grid md:grid-cols-3 gap-4">
           {
             active.teams.map((team: any) => (
-              <div className="mt-4 flex flex-col h-full border rounded-xl p-4">
+              <div key={team.name} className="mt-4 flex flex-col h-full border rounded-xl p-4">
                 <div className="flex flex-row justify-between items-center h-full px-1 mb-3">
                   <div className="w-full">
                     <div className="flex flex-row justify-between items-center">
@@ -131,22 +147,38 @@ export default function CourseView({active, setActive}: CourseViewProps) {
         <table className="min-w-full mt-4 border-collapse">
           <thead>
             <tr>
+              <th className="border px-4 py-2 text-left w-0"></th>
               <th className="border px-4 py-2 text-left">Username</th>
               <th className="border px-4 py-2 text-left">Team Name</th>
             </tr>
           </thead>
           <tbody>
-            {
-              active.students.map((student: any) => (
-                <tr key={student.username}>
-                  <td className="border px-4 py-2 text-sm">{student.username}</td>
-                  <td className="border px-4 py-2 text-sm">{student.teamName || 'Not Assigned'}</td>
-                </tr>
-              ))
-            }
+            {active.students.map((student: any) => (
+              <tr key={student.username}>
+                <td className="border px-4 py-2 text-sm w-min">
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(student.username)}
+                    onChange={() => handleCheckboxChange(student.username)}
+                    className="text-indigo-500 my-2 rounded focus:ring-0 focus:ring-offset-0"
+                  />
+                </td>
+                <td className="border px-4 py-2 text-sm">{student.username}</td>
+                <td className="border px-4 py-2 text-sm">{student.teamName || 'Not Assigned'}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+      {
+        selected.length > 0 && !addToTeam && (
+          <BottomBar 
+            selected={selected}
+            setAddToTeam={setAddToTeam}
+            docID={active._id}
+          />
+        )
+      }
     </>
   )
 }
