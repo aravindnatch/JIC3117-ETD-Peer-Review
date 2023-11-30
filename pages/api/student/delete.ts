@@ -43,6 +43,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     );
 
+    await courses.updateOne(
+      { _id: new ObjectId(docID) },
+      {
+        $pull: {
+          "teams.$[].members": {
+            username: { $in: usernames }
+          }
+        }
+      }
+    );
+
     res.send('success')
   } catch (err) {
     console.log(err);

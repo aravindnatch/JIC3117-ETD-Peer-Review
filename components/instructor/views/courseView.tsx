@@ -11,9 +11,10 @@ import AddToTeam from '../modals/addToTeam'
 interface CourseViewProps {
   active: any
   setActive: any
+  setEvalView: any
 }
 
-export default function CourseView({active, setActive}: CourseViewProps) {
+export default function CourseView({active, setActive, setEvalView}: CourseViewProps) {
   const [ addTeam, setAddTeam ] = useState(false)
   const [ addStudent, setAddStudent ] = useState(false)
   const [ addToTeam, setAddToTeam ] = useState(false)
@@ -34,6 +35,20 @@ export default function CourseView({active, setActive}: CourseViewProps) {
     }
   };
 
+  const findTeamNameByUsername = (username: string) => {
+    for (let team of active.teams) {
+      if (team.members.some((member: any) => member.username === username)) {
+        return team.name;
+      }
+    }
+    return 'Not Assigned';
+  }
+
+  const calculateCompletionPercentage = (team: any) => {
+    const membersWithEvaluation = team.members.filter((member: any) => member.evaluation !== undefined);
+    return (membersWithEvaluation.length / team.members.length) * 100;
+  }
+
   return (
     <>
       {
@@ -51,7 +66,7 @@ export default function CourseView({active, setActive}: CourseViewProps) {
           <AddToTeam docID={active._id} team={active.teams} selected={addToTeam} setAddToTeam={setAddToTeam} />
         )
       }
-      <div className="px-8 pt-4">
+      <div className="px-8 pt-4 z-50">
         <div className="flex justify-between">
           <div>
             <div className="flex flex-row items-center">
@@ -116,12 +131,12 @@ export default function CourseView({active, setActive}: CourseViewProps) {
                         <p className="font-semibold text-sm opacity-80">Students: {team.members.length}</p>
                       </div>
                       <div className="flex flex-col">
-                        <p className="font-semibold text-sm opacity-80">Completion: 0%</p>
+                        <p className="font-semibold text-sm opacity-80">Completion: {calculateCompletionPercentage(team).toFixed(0)}%</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="hover:opacity-80 mt-1 rounded-xl flex justify-between items-center cursor-pointer py-2.5 px-5 select-none border">
+                <div onClick={() => setEvalView({team, course: active})}  className="hover:opacity-80 mt-1 rounded-xl flex justify-between items-center cursor-pointer py-2.5 px-5 select-none border">
                   <div className="text-sm font-semibold">
                     View Team
                   </div>
@@ -164,7 +179,7 @@ export default function CourseView({active, setActive}: CourseViewProps) {
                   />
                 </td>
                 <td className="border px-4 py-2 text-sm">{student.username}</td>
-                <td className="border px-4 py-2 text-sm">{student.teamName || 'Not Assigned'}</td>
+                <td className="border px-4 py-2 text-sm">{findTeamNameByUsername(student.username)}</td>
               </tr>
             ))}
           </tbody>

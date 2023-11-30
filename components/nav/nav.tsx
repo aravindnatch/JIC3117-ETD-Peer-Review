@@ -1,7 +1,12 @@
 import { useData } from '@contexts/data-context'
 import { FaUserCircle } from 'react-icons/fa'
 
-export default function Nav({ name }: any) {
+interface NavProps {
+  name: string
+  username: string
+}
+
+export default function Nav({ name, username }: NavProps) {
   const { data } = useData()
 
   return (
@@ -18,7 +23,7 @@ export default function Nav({ name }: any) {
 
         <div className="flex flex-row space-x-9 h-full align-middle items-center justify-center">
           <div className="flex items-center">
-            <div className="font-medium opacity-70 select-none">{name}</div>
+            <div className="font-medium opacity-70 select-none">{name} ({username})</div>
             <FaUserCircle className="text-2xl cursor-pointer ml-3" />
           </div>
         </div>

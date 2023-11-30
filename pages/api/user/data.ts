@@ -51,7 +51,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (userData.role === 'instructor') {
       courseDocuments = await coursesCollection.find({ instructor: new ObjectId(userData._id) }).toArray();
     } else if (userData.role === 'student') {
-      courseDocuments = await coursesCollection.find({ students: { $in: [ new ObjectId(userData._id)] } }).toArray();
+      courseDocuments = await coursesCollection.find({ 
+        "students.username": userData.username 
+      }).toArray();
+    }
+
+    const questionsCollection = db.collection('questions');
+
+    for (let i = 0; i < courseDocuments.length; i++) {
+      try {
+        const questionDocuments = await questionsCollection.find({ _id: new ObjectId(courseDocuments[i].questionSet) }).toArray();
+        courseDocuments[i].questions = questionDocuments[0].questions;
+      } catch (err) {}
     }
 
     userData.courses = courseDocuments;

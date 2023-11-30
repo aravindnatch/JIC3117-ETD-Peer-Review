@@ -37,6 +37,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const courses = db.collection('courses');
 
+    await courses.updateMany(
+      { 
+        _id: new ObjectId(docID),
+        'teams.members.username': { $in: usernames } // This finds any team where the user is currently a member
+      },
+      { 
+        $pull: { 
+          'teams.$.members': { username: { $in: usernames } } // This removes the user from those teams
+        } as any
+      }
+    );
+
     await courses.updateOne(
       { 
         _id: new ObjectId(docID),
@@ -46,20 +58,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         $addToSet: { 
           'teams.$.members': { $each: userObjects } // Update part to push to the members of the matched team
         } 
-      }
-    );
-
-    await courses.updateMany(
-      { 
-        _id: new ObjectId(docID)
-      },
-      { 
-        $set: { 
-          'students.$[elem].teamName': name
-        }
-      },
-      {
-        arrayFilters: [{ 'elem.username': { $in: usernames } }]
       }
     );
 

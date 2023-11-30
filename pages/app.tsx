@@ -31,6 +31,8 @@ const Home: NextPage = () => {
         router.push("/onboarding")
       }
 
+      console.log(res.data)
+
       setUserData(res.data);
       setLoading(false);
     }).catch((err) => {
@@ -54,7 +56,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Nav name={userData.name} />
+      <Nav name={userData.name} username={userData.username} />
 
       <div className="flex flex-col flex-grow md:flex-row overflow-auto">
         <div className="flex flex-grow flex-col w-full">
