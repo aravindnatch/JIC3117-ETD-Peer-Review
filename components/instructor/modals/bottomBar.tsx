@@ -30,8 +30,8 @@ export default function BottomBar({ selected, docID, setAddToTeam }: BottomBarPr
   }
 
   return (
-    <div className="absolute w-full flex bottom-7 justify-center">
-      <div className="z-50 flex px-2 mx-4 md:w-1/2 w-full rounded-xl h-14 border bg-white shadow-md">
+    <div className="fixed w-full flex bottom-7 justify-center pointer-events-none">
+      <div className="z-50 flex px-2 mx-4 md:w-1/2 w-full rounded-xl h-14 border bg-white shadow-md pointer-events-auto">
         <div className="flex w-full justify-between items-center">
           <div className="ml-4 select-none text-sm text-center">
             {selected.length} selected

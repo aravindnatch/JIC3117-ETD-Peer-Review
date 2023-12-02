@@ -26,18 +26,31 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const name = req.body.name;
-  const docID = user.documentID;
+  const { courseID, formData, username } = req.body;
 
   try {
     const courses = db.collection('courses');
+    const course = await courses.findOne({ _id: new ObjectId(courseID) });
 
+    if (!course) {
+      throw new Error('Course not found');
+    }
+
+    for (const team of course.teams) {
+      for (const member of team.members) {
+        if (member.username === username) {
+          member.evaluation = formData;
+        }
+      }
+    }
+
+    // Update the course document with the new evaluation data
     await courses.updateOne(
-      { _id: new ObjectId(docID) },
-      { $push: { teams: { name: name, members: [] } } }
+      { _id: new ObjectId(courseID) },
+      { $set: { teams: course.teams } }
     );
 
-    res.send('success')
+    res.send('success');
   } catch (err) {
     console.log(err);
     res.status(500).send('failed to update user');
