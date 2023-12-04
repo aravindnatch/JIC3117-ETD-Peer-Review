@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 interface TeacherFeedback {
   teacherId: number;
@@ -13,65 +13,49 @@ interface FeedbackItem {
   feedback: string;
 }
 
-const TeacherFeedback: React.FC = () => {
-  const [teacherFeedback, setTeacherFeedback] = useState<TeacherFeedback | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const useTeacherFeedback = () => {
+  const [state, setState] = useState<{ data: TeacherFeedback | null; loading: boolean; error: string | null }>({
+    data: null,
+    loading: true,
+    error: null,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulated data fetching
-        const response = await fetch("/api/teacher-feedback"); // Replace with your actual API endpoint
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const feedbackData = await response.json();
-
-        setTeacherFeedback(feedbackData);
-        setLoading(false); // Set loading to false when data is loaded
+        const response = await fetch('/api/teacher-feedback');
+        if (!response.ok) throw new Error('Failed to fetch data');
+        const data = await response.json();
+        setState({ data, loading: false, error: null });
       } catch (error) {
-        setError("An error occurred while fetching data.");
-        setLoading(false); // Set loading to false when an error occurs
+        setState({ data: null, loading: false, error: "Error" });
       }
     };
 
     fetchData();
+
+    const socket = new WebSocket('ws://your-websocket-server-url');
+    socket.addEventListener('message', event => {
+      const updatedData = JSON.parse(event.data);
+      setState(state => ({ ...state, data: updatedData }));
+    });
+
+    return () => socket.close();
   }, []);
 
-  if (error) {
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <div>Error: {error}</div>
-      </div>
-    );
-  }
+  return state;
+};
 
-  if (loading) {
-    // Display a loading spinner or animation
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <div className="loading-spinner">Loading...</div>
-      </div>
-    );
-  }
+const TeacherFeedbackComponent: React.FC = () => {
+  const { data, loading, error } = useTeacherFeedback();
 
-  if (teacherFeedback === null) {
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <div>No data available.</div>
-      </div>
-    );
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!data) return <div>No data available.</div>;
 
   return (
     <div>
       <h1>Teacher Feedback</h1>
-      <h2>Feedback Given</h2>
       <table className="table">
         <thead>
           <tr>
@@ -81,11 +65,11 @@ const TeacherFeedback: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {teacherFeedback.feedbackGiven.map((feedbackItem) => (
-            <tr key={feedbackItem.feedbackId}>
-              <td>{feedbackItem.feedbackId}</td>
-              <td>{feedbackItem.studentName}</td>
-              <td>{feedbackItem.feedback}</td>
+          {data.feedbackGiven.map(item => (
+            <tr key={item.feedbackId}>
+              <td>{item.feedbackId}</td>
+              <td>{item.studentName}</td>
+              <td>{item.feedback}</td>
             </tr>
           ))}
         </tbody>
@@ -94,4 +78,4 @@ const TeacherFeedback: React.FC = () => {
   );
 };
 
-export default TeacherFeedback;
+export default TeacherFeedbackComponent;
