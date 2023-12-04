@@ -6,6 +6,26 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 # Release Notes
 
+## Version 1.0.0
+
+### New Features
+
+* The Student side is connected to the Instructor side.
+* Instructors can assign peer evaluations to students.
+* Students can access assigned peer evaluations once get added to the course.
+* Students can complete peer evaluations.
+* Student completion of peer evaluation gets recorded on both the Student side and the Instructor side.
+* Instructors can generate a report for each student containing the student's responses to others and from others in the team.
+
+### Bug Fixes
+
+* The Instructor side and the Student side are now connected.
+* Instructors can now generate reports for students.
+
+### Known Issues
+
+* Report of team "health score" to reflect team dynamics is not here.
+
 ## Version 0.4.0
 
 ### New Features
