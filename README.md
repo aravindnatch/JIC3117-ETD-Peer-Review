@@ -10,23 +10,23 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 * <What is the required configuration of software and hardware that the customer must have before they can begin the installation process?>
 
-## Dependent Libraries
+## Dependencies
 
 * <What third-party software must be installed for your software to function?>
 
-## Download Instructions
+## Download
 
 * <How will the customer and users get access to the project?>
 
-## Build Instructions (if needed)
+## Build (if needed)
 
 * <If you are providing the raw source code rather than a binary build, how will the customer and users create the required executable application?>
 
-## Installation of Actual Application
+## Installation
 
 * <What steps have to be taken after the software is built? What directories are required for installation?>
 
-## Run Instructions
+## Running Application
 
 * <What does the user/customer have to do to get the software to execute?>
 
