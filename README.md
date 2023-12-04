@@ -4,7 +4,57 @@
 
 The ETD Peer Review tool allows instructors to distribute peer evaluations to their students and view and evaluate the results of the completed peer evaluations. The ETD tool also allows students to evaluate their teammates by conducting these peer evaluations given out by their instructors. Therefore, ETD can make viewing and grading students' peer evaluations easier for course instructors, letting instructors efficiently assess the teams' well-being, while teaching students how to evaluate their peers through carefully formatted evaluations with instructions.
 
+# Installation Guide
+
+## Prerequisites
+
+* <What is the required configuration of software and hardware that the customer must have before they can begin the installation process?>
+
+## Dependencies
+
+* <What third-party software must be installed for your software to function?>
+
+## Download
+
+* <How will the customer and users get access to the project?>
+
+## Build (if needed)
+
+* <If you are providing the raw source code rather than a binary build, how will the customer and users create the required executable application?>
+
+## Installation
+
+* <What steps have to be taken after the software is built? What directories are required for installation?>
+
+## Running Application
+
+* <What does the user/customer have to do to get the software to execute?>
+
+## Troubleshooting
+
+* <What are common errors that occur during installation and what is the corrective action?>
+
 # Release Notes
+
+## Version 1.0.0
+
+### New Features
+
+* The Student side is connected to the Instructor side.
+* Instructors can assign peer evaluations to students.
+* Students can access assigned peer evaluations once get added to the course.
+* Students can complete peer evaluations.
+* Student completion of peer evaluation gets recorded on both the Student side and the Instructor side.
+* Instructors can generate a report for each student containing the student's responses to others and from others in the team.
+
+### Bug Fixes
+
+* The Instructor side and the Student side are now connected.
+* Instructors can now generate reports for students.
+
+### Known Issues
+
+* Report of team "health score" to reflect team dynamics is not here.
 
 ## Version 0.4.0
 
@@ -18,12 +68,12 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 ### Bug Fixes
 
 * Students can navigate the skeleton peer evaluation form.
-* Students can give scores and comments for each member of their team in the skeleton peer evaluation form.
+* Students can give scores and comments for each team member in the skeleton peer evaluation form.
 * Students can complete the skeleton peer evaluation form.
 
 ### Known Issues
 
-* The Instructor side and the Student side are not connected (for instructors' custom evaluation forms).
+* The Instructor and Student sides are not connected (for instructors' custom evaluation forms).
 * Instructors cannot generate a report for a peer evaluation they gave out.
 
 ## Version 0.3.0
@@ -31,17 +81,17 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 ### New Features
 
 * Instructors can create question sets - groups of questions to be used across courses.
-* Instructors are able to edit the question sets.
-* Instructors are able to view course information.
+* Instructors can edit the question sets.
+* Instructors can view course information.
 * Instructors can create teams in a course.
-* Instructors are able to add students to a course.
-* The tool is able to generate invitation codes for students to use if they are not automatically added to a course.
+* Instructors can add students to a course.
+* The tool can generate invitation codes for students to use if they are not automatically added to a course.
 * Instructors can see a table view of the students.
 * Made UI changes to the tool.
 
 ### Bug Fixes
 
-* The instructors are able to create new teams in a course, as opposed to the previous version.
+* The instructors can create new teams in a course, as opposed to the previous version.
 * The instructors can create question sets to use across courses, which is a new function added to the previous version.
 
 ### Known Issues
