@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useData } from '@contexts/data-context'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
+
 
 interface TeacherFeedback {
   teacherId: number;
@@ -28,17 +26,21 @@ interface FetchState<T> {
   error: string | null;
 }
 
+const fetchTeacherFeedback = async (): Promise<TeacherFeedback> => {
+  const response = await fetch('/api/teacher-feedback');
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return await response.json();
+};
+
 const useTeacherFeedback = (): FetchState<TeacherFeedback> => {
   const [state, setState] = useState<FetchState<TeacherFeedback>>({ data: null, loading: true, error: null });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/teacher-feedback');
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const data: TeacherFeedback = await response.json();
+        const data = await fetchTeacherFeedback();
         setState({ data, loading: false, error: null });
       } catch (error) {
         setState({ data: null, loading: false, error: error instanceof Error ? error.message : String(error) });
@@ -53,16 +55,29 @@ const useTeacherFeedback = (): FetchState<TeacherFeedback> => {
 
 const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackFormState) => Promise<void> }> = ({ onSubmit }) => {
   const [newFeedback, setNewFeedback] = useState<FeedbackFormState>({ studentId: 0, studentName: '', feedback: '' });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validateForm = () => {
+    let valid = true;
+    let newErrors = {};
+
+    setErrors(newErrors);
+    return valid;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validateForm()) return;
     await onSubmit(newFeedback);
     setNewFeedback({ studentId: 0, studentName: '', feedback: '' });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Form inputs and buttons */}
+      {/* Form inputs, error messages, and buttons */}
+      {/* Example error display: */}
+      {errors.studentName && <div className="error">{errors.studentName}</div>}
+      {/* Example error display: */}
     </form>
   );
 };
@@ -71,7 +86,7 @@ const TeacherFeedbackComponent: React.FC = () => {
   const { data, loading, error } = useTeacherFeedback();
 
   const handleNewFeedbackSubmit = async (feedback: FeedbackFormState) => {
-    // Logic to submit the new feedback (e.g., POST request to the server)
+    // Logic to submit the new feedback
   };
 
   if (loading) return <div>Loading...</div>;
