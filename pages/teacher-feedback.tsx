@@ -46,8 +46,54 @@ const useTeacherFeedback = () => {
   return state;
 };
 
+const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackItem) => void }> = ({ onSubmit }) => {
+  const [newFeedback, setNewFeedback] = useState<FeedbackItem>({
+    feedbackId: 0, 
+    studentId: 0,
+    studentName: '',
+    feedback: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(newFeedback);
+    setNewFeedback({ ...newFeedback, studentId: 0, studentName: '', feedback: '' });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="number"
+        placeholder="Student ID"
+        value={newFeedback.studentId}
+        onChange={(e) => setNewFeedback({ ...newFeedback, studentId: parseInt(e.target.value, 10) })}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Student Name"
+        value={newFeedback.studentName}
+        onChange={(e) => setNewFeedback({ ...newFeedback, studentName: e.target.value })}
+        required
+      />
+      <textarea
+        placeholder="Feedback"
+        value={newFeedback.feedback}
+        onChange={(e) => setNewFeedback({ ...newFeedback, feedback: e.target.value })}
+        required
+      />
+      <button type="submit">Submit Feedback</button>
+    </form>
+  );
+};
+
 const TeacherFeedbackComponent: React.FC = () => {
   const { data, loading, error } = useTeacherFeedback();
+
+  const handleNewFeedbackSubmit = (feedbackItem: FeedbackItem) => {
+    console.log('Submitting new feedback:', feedbackItem);
+    // Add logic to send this to the server
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -56,6 +102,7 @@ const TeacherFeedbackComponent: React.FC = () => {
   return (
     <div>
       <h1>Teacher Feedback</h1>
+      <FeedbackForm onSubmit={handleNewFeedbackSubmit} />
       <table className="table">
         <thead>
           <tr>
