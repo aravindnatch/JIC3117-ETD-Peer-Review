@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react'
+import { useData } from '@contexts/data-context'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 interface TeacherFeedback {
   teacherId: number;
