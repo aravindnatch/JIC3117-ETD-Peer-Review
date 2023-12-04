@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 interface TeacherFeedback {
   teacherId: number;
   teacherName: string;
@@ -13,41 +14,80 @@ interface FeedbackItem {
   feedback: string;
 }
 
-const useTeacherFeedback = () => {
-  const [state, setState] = useState<{ data: TeacherFeedback | null; loading: boolean; error: string | null }>({
-    data: null,
-    loading: true,
-    error: null,
-  });
+interface FeedbackFormState {
+  studentId: number;
+  studentName: string;
+  feedback: string;
+}
+
+interface FetchState<T> {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const fetchTeacherFeedback = async (): Promise<TeacherFeedback> => {
+  const response = await fetch('/api/teacher-feedback');
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return await response.json();
+};
+
+const useTeacherFeedback = (): FetchState<TeacherFeedback> => {
+  const [state, setState] = useState<FetchState<TeacherFeedback>>({ data: null, loading: true, error: null });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/teacher-feedback');
-        if (!response.ok) throw new Error('Failed to fetch data');
-        const data = await response.json();
+        const data = await fetchTeacherFeedback();
         setState({ data, loading: false, error: null });
       } catch (error) {
-        setState({ data: null, loading: false, error: "Error" });
+        setState({ data: null, loading: false, error: error instanceof Error ? error.message : String(error) });
       }
     };
 
     fetchData();
-
-    const socket = new WebSocket('ws://your-websocket-server-url');
-    socket.addEventListener('message', event => {
-      const updatedData = JSON.parse(event.data);
-      setState(state => ({ ...state, data: updatedData }));
-    });
-
-    return () => socket.close();
   }, []);
 
   return state;
 };
 
+const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackFormState) => Promise<void> }> = ({ onSubmit }) => {
+  const [newFeedback, setNewFeedback] = useState<FeedbackFormState>({ studentId: 0, studentName: '', feedback: '' });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validateForm = () => {
+    let valid = true;
+    let newErrors = {};
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    await onSubmit(newFeedback);
+    setNewFeedback({ studentId: 0, studentName: '', feedback: '' });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form inputs, error messages, and buttons */}
+      {/* Example error display: */}
+      {errors.studentName && <div className="error">{errors.studentName}</div>}
+      {/* Example error display: */}
+    </form>
+  );
+};
+
 const TeacherFeedbackComponent: React.FC = () => {
   const { data, loading, error } = useTeacherFeedback();
+
+  const handleNewFeedbackSubmit = async (feedback: FeedbackFormState) => {
+    // Logic to submit the new feedback
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -56,24 +96,8 @@ const TeacherFeedbackComponent: React.FC = () => {
   return (
     <div>
       <h1>Teacher Feedback</h1>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Feedback ID</th>
-            <th>Student</th>
-            <th>Feedback</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.feedbackGiven.map(item => (
-            <tr key={item.feedbackId}>
-              <td>{item.feedbackId}</td>
-              <td>{item.studentName}</td>
-              <td>{item.feedback}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <FeedbackForm onSubmit={handleNewFeedbackSubmit} />
+      {/* Table displaying feedback */}
     </div>
   );
 };
