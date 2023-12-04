@@ -4,6 +4,36 @@
 
 The ETD Peer Review tool allows instructors to distribute peer evaluations to their students and view and evaluate the results of the completed peer evaluations. The ETD tool also allows students to evaluate their teammates by conducting these peer evaluations given out by their instructors. Therefore, ETD can make viewing and grading students' peer evaluations easier for course instructors, letting instructors efficiently assess the teams' well-being, while teaching students how to evaluate their peers through carefully formatted evaluations with instructions.
 
+# Installation Guide
+
+## Prerequisites
+
+* <What is the required configuration of software and hardware that the customer must have before they can begin the installation process?>
+
+## Dependencies
+
+* <What third-party software must be installed for your software to function?>
+
+## Download
+
+* <How will the customer and users get access to the project?>
+
+## Build (if needed)
+
+* <If you are providing the raw source code rather than a binary build, how will the customer and users create the required executable application?>
+
+## Installation
+
+* <What steps have to be taken after the software is built? What directories are required for installation?>
+
+## Running Application
+
+* <What does the user/customer have to do to get the software to execute?>
+
+## Troubleshooting
+
+* <What are common errors that occur during installation and what is the corrective action?>
+
 # Release Notes
 
 ## Version 1.0.0
