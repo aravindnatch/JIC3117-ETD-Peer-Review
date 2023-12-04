@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 interface TeacherFeedback {
   teacherId: number;
@@ -13,71 +13,49 @@ interface FeedbackItem {
   feedback: string;
 }
 
-const LoadingSpinner: React.FC = () => (
-  <div className="loading-spinner">
-    <div className="spinner"></div>
-    <div>Loading...</div>
-  </div>
-);
-
-const TeacherFeedback: React.FC = () => {
-  const [teacherFeedback, setTeacherFeedback] = useState<TeacherFeedback | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+const useTeacherFeedback = () => {
+  const [state, setState] = useState<{ data: TeacherFeedback | null; loading: boolean; error: string | null }>({
+    data: null,
+    loading: true,
+    error: null,
+  });
 
   useEffect(() => {
-    // Attempt to retrieve data from local storage
-    const cachedData = localStorage.getItem("teacherFeedbackData");
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/teacher-feedback');
+        if (!response.ok) throw new Error('Failed to fetch data');
+        const data = await response.json();
+        setState({ data, loading: false, error: null });
+      } catch (error) {
+        setState({ data: null, loading: false, error: "Error" });
+      }
+    };
 
-    if (cachedData) {
-      setTeacherFeedback(JSON.parse(cachedData));
-      setLoading(false);
-    } else {
-      const fetchData = async () => {
-        try {
-          // Simulated data fetching
-          const response = await fetch("/api/teacher-feedback"); // Replace with your actual API endpoint
-          if (!response.ok) {
-            throw new Error("Failed to fetch data");
-          }
+    fetchData();
 
-          const feedbackData = await response.json();
+    const socket = new WebSocket('ws://your-websocket-server-url');
+    socket.addEventListener('message', event => {
+      const updatedData = JSON.parse(event.data);
+      setState(state => ({ ...state, data: updatedData }));
+    });
 
-          // Store the data in local storage for caching
-          localStorage.setItem("teacherFeedbackData", JSON.stringify(feedbackData));
-
-          setTeacherFeedback(feedbackData);
-          setLoading(false);
-        } catch (error) {
-          setLoading(false);
-        }
-      };
-
-      fetchData();
-    }
+    return () => socket.close();
   }, []);
 
-  if (loading) {
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  return state;
+};
 
-  if (teacherFeedback === null) {
-    return (
-      <div>
-        <h1>Teacher Feedback</h1>
-        <div>No data available.</div>
-      </div>
-    );
-  }
+const TeacherFeedbackComponent: React.FC = () => {
+  const { data, loading, error } = useTeacherFeedback();
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!data) return <div>No data available.</div>;
 
   return (
     <div>
       <h1>Teacher Feedback</h1>
-      <h2>Feedback Given</h2>
       <table className="table">
         <thead>
           <tr>
@@ -87,11 +65,11 @@ const TeacherFeedback: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {teacherFeedback.feedbackGiven.map((feedbackItem) => (
-            <tr key={feedbackItem.feedbackId}>
-              <td>{feedbackItem.feedbackId}</td>
-              <td>{feedbackItem.studentName}</td>
-              <td>{feedbackItem.feedback}</td>
+          {data.feedbackGiven.map(item => (
+            <tr key={item.feedbackId}>
+              <td>{item.feedbackId}</td>
+              <td>{item.studentName}</td>
+              <td>{item.feedback}</td>
             </tr>
           ))}
         </tbody>
@@ -100,4 +78,4 @@ const TeacherFeedback: React.FC = () => {
   );
 };
 
-export default TeacherFeedback;
+export default TeacherFeedbackComponent;
