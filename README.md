@@ -8,31 +8,23 @@ The ETD Peer Review tool allows instructors to distribute peer evaluations to th
 
 ## Prerequisites
 
-* <What is the required configuration of software and hardware that the customer must have before they can begin the installation process?>
-
-## Dependencies
-
-* <What third-party software must be installed for your software to function?>
-
-## Download
-
-* <How will the customer and users get access to the project?>
-
-## Build (if needed)
-
-* <If you are providing the raw source code rather than a binary build, how will the customer and users create the required executable application?>
+To install and run this tool locally you will need to have Git and Node.js installed on your computer. 
 
 ## Installation
 
-* <What steps have to be taken after the software is built? What directories are required for installation?>
+1. `git clone https://github.com/aravindnatch/JIC3117-ETD-Peer-Review/`
+2. `cd JIC3117-ETD-Peer-Review`
+3. `npm install`
+4. Add the following to a file called .env.local in the root directory:
+   ```
+     MONGODB_URI=YOUR_MONGODB_URI
+     JWT_SECRET=RANDOM_STRING
+   ```
+5. `npm install`
 
 ## Running Application
 
-* <What does the user/customer have to do to get the software to execute?>
-
-## Troubleshooting
-
-* <What are common errors that occur during installation and what is the corrective action?>
+`npm run dev`
 
 # Release Notes
 
