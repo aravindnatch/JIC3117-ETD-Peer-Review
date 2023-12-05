@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const name = req.body.name;
-  const docID = user.documentID;
+  const docID = req.body.docID;
 
   try {
     const courses = db.collection('courses');

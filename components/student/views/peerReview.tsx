@@ -28,12 +28,12 @@ export default function PeerReview({course, username}: any) {
     }));
   }
 
-  function handleTextAreaChange(text: string) {
+  function handleTextAreaChange(questionIndex: number, text: string) {
     setFormData((prevFormData: any) => ({
       ...prevFormData, 
       [current.username]: {
         ...prevFormData[current.username],
-        [`feedback`]: text,
+        [`feedback${questionIndex}`]: text,
       },
     }));
   }
@@ -46,15 +46,19 @@ export default function PeerReview({course, username}: any) {
     return `${month} ${day}, ${year}`
   }
 
-  function areAllNumberQuestionsAnswered() {
+  function areAllQuestionsAnswered() {
     return course.teams[0].members.every((member: any) => {
       const userResponses = formData[member.username] || {};
-      return course.questions.every((_: any, index: any) => userResponses.hasOwnProperty(`q${index}`));
+      return course.questions.every((_: any, index: any) => {
+        return userResponses.hasOwnProperty(`q${index}`) && 
+              userResponses.hasOwnProperty(`feedback${index}`) && 
+              userResponses[`feedback${index}`].trim() !== '';
+      });
     });
   }
 
   const handleSubmit = () => {
-    if (areAllNumberQuestionsAnswered()) {
+    if (areAllQuestionsAnswered()) {
       console.log(formData);
 
       axios.defaults.headers.common['Authorization'] = cookies.userData.token
@@ -150,31 +154,31 @@ export default function PeerReview({course, username}: any) {
             <>
               <div className="mt-4 h-full">
                 <p className="font-semibold mr-2">{question} <span className="text-red-500">*</span></p>
-                <p className="text-sm opacity-70 mt-1">1 = Under-performing, 2 = Average, 3 = Excellent performance.</p>
+                <p className="text-sm opacity-70 mt-1">0 = Disengaged, 1 = Below Average, 2 = Average, 3 = Above Average</p>
               </div>
 
               <div className="mt-4 flex flex-row h-full space-x-2 mb-4">
                 {
-                  [1, 2, 3].map((num: number) => (
+                  [0, 1, 2, 3].map((num: number) => (
                     <div key={num} className={`select-none border-2 px-8 py-1 rounded-xl ${formData[current.username]?.[`q${i}`] === num ? "border-indigo-500" : ""}`} onClick={() => handleNumberChoice(i, num)}>
                       {num}
                     </div>
                   ))
                 }
               </div>
+
+              <div className="mt-4 flex flex-col h-full">
+                <p className="font-semibold">Please explain your rating for the question above.</p>
+                <p className="text-sm opacity-80 mb-3">This can only be seen by the course instructor.</p>
+                <textarea 
+                  className="border rounded-xl w-full h-32 p-2"
+                  value={formData[current.username]?.[`feedback${i}`] || ''}
+                  onChange={(e) => handleTextAreaChange(i, e.target.value)}
+                ></textarea>
+              </div>
             </>
           ))
         }
-
-        <div className="mt-4 flex flex-col h-full">
-          <p className="font-semibold">Additional Feedback (Optional)</p>
-          <p className="text-sm opacity-80 mb-3">This can only be seen by the course instructor.</p>
-          <textarea 
-            className="border rounded-xl w-full h-32 p-2"
-            value={formData[current.username]?.feedback || ''}
-            onChange={(e) => handleTextAreaChange(e.target.value)}
-          ></textarea>
-        </div>
 
         <div className="flex justify-center p-4 mt-4">
           <button 

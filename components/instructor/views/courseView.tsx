@@ -46,7 +46,7 @@ export default function CourseView({active, setActive, setEvalView}: CourseViewP
 
   const calculateCompletionPercentage = (team: any) => {
     const membersWithEvaluation = team.members.filter((member: any) => member.evaluation !== undefined);
-    return (membersWithEvaluation.length / team.members.length) * 100;
+    return (membersWithEvaluation.length / team.members.length) * 100 || 0;
   }
 
   return (

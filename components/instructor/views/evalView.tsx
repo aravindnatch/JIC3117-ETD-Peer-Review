@@ -79,9 +79,10 @@ export default function EvalView({evalView, setEvalView}: CourseViewProps) {
                         <div className="flex flex-col">
                           <div className="mt-4 h-full">
                             <p className="font-semibold text-sm inline-block mr-2 opacity-80">{index + 1}. {question}</p>
-                            <p className="text-xs opacity-50 mb-1">1 = Under-performing, 2 = Average, 3 = Excellent performance.</p>
+                            <p className="text-xs opacity-50 mb-1">0 = Disengaged, 1 = Below Average, 2 = Average, 3 = Above Average.</p>
                           </div>
                           <p className="font-semibold text-sm opacity-70 mt-2">Answered: {currentData?.[person.username]?.[`q${index}`]}</p>
+                          <p className="font-semibold text-sm opacity-70 mt-2">Justification: {currentData?.[person.username]?.[`feedback${index}`]}</p>
                         </div>
                       </div>
                     ))
